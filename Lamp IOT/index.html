@@ -1,0 +1,66 @@
+<html>
+<head>
+	<title></title>
+<style>
+body, html{
+	height: 100%;
+
+}
+body{
+	display: flex;
+	align-items: center;
+	justify-content:center;
+}
+</style>
+</head>
+<body>
+	<img src="" id="lamp" data-state=''/>
+
+
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-messaging.js"></script>
+
+<script>
+  // Initialize Firebase
+  // TODO: Replace with your project's customized code snippet
+
+  var config = {
+	  apiKey: "",//key database
+	  authDomain: "",//domain database
+	  databaseURL: "",//url dataase
+	  storageBucket: "",//storageBucket
+	};
+  firebase.initializeApp(config);
+
+  let lamp = document.querySelector("#lamp");
+  lamp.addEventListener('click', () =>{
+  	 
+  	 let state = lamp.getAttribute('data-state');
+
+  	 if(state == "false"){
+  	 	firebase.database().ref('lamp').set(true);
+  	 }else{
+  	 	firebase.database().ref('lamp').set(false);
+  	 }
+
+  });
+
+  firebase.database().ref('lamp').on('value', snapshot =>{
+  		
+  		let state = snapshot.val();
+
+  		if(state){
+  			lamp.src = 'img/on.gif';
+  			lamp.setAttribute('data-state', true);
+  		}else{
+  			lamp.src = 'img/off1.png';
+  			lamp.setAttribute('data-state', false);
+  		}
+  });
+</script>
+</body>
+</html>
